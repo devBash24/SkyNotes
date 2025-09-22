@@ -45,7 +45,7 @@ This is my first app using AWS, and it showcases a full-stack serverless archite
 
 ## 🖼️ Architecture
 
-![SkyNotes Architecture](./aws-image.png)  
+![SkyNotes Architecture](./aws-diagram.png)  
 *High-level AWS serverless architecture of SkyNotes*
 
 ---
