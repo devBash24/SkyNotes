@@ -13,7 +13,6 @@ const featureHighlights = ["Guided setup", "Secure verification", "Quick sign-in
 type Stage = "form" | "verify"
 
 type PendingAccount = {
-  username: string
   email: string
   password: string
 }
@@ -26,7 +25,6 @@ export const SignUpPage = () => {
   const [stage, setStage] = useState<Stage>("form")
   const [pendingAccount, setPendingAccount] = useState<PendingAccount | null>(null)
 
-  const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -63,8 +61,8 @@ export const SignUpPage = () => {
 
     setIsSubmitting(true)
     try {
-      await signUp({ username: username.trim(), email: email.trim(), password })
-      setPendingAccount({ username: username.trim(), email: email.trim(), password })
+      await signUp({ email: email.trim(), password })
+      setPendingAccount({  email: email.trim(), password })
       setStage("verify")
       setFeedback(`We sent a verification code to ${email.trim()}. Enter it below to activate your account.`)
     } catch (error) {
@@ -95,9 +93,9 @@ export const SignUpPage = () => {
 
     setIsSubmitting(true)
     try {
-      await confirmSignUp(pendingAccount.username, verificationCode.trim())
+      await confirmSignUp(pendingAccount.email, verificationCode.trim())
       setFeedback("Your account has been verified. Signing you in…")
-      await signIn(pendingAccount.username, pendingAccount.password)
+      await signIn(pendingAccount.email, pendingAccount.password)
       navigate(returnTo, { replace: true })
     } catch (error) {
       if (error instanceof Error) {
@@ -120,7 +118,7 @@ export const SignUpPage = () => {
 
     setIsSubmitting(true)
     try {
-      await resendConfirmationCode(pendingAccount.username)
+      await resendConfirmationCode(pendingAccount.email)
       setFeedback(`A new verification code has been sent to ${pendingAccount.email}.`)
     } catch (error) {
       if (error instanceof Error) {
@@ -175,7 +173,7 @@ export const SignUpPage = () => {
             <CardContent className="space-y-4">
               {stage === "form" ? (
                 <form className="space-y-4" onSubmit={handleSignUpSubmit}>
-                  <div className="space-y-1.5">
+                  {/* <div className="space-y-1.5">
                     <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground" htmlFor="username">
                       Username
                     </label>
@@ -187,7 +185,7 @@ export const SignUpPage = () => {
                       autoComplete="username"
                       required
                     />
-                  </div>
+                  </div> */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground" htmlFor="email">
                       Email

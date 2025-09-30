@@ -148,13 +148,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     })
   }, [])
 
-  const signUp = useCallback(async ({ username, email, password }: SignUpPayload) => {
+  const signUp = useCallback(async ({ email, password }: SignUpPayload) => {
     if (!isPoolConfigured()) {
       throw new Error("Cognito user pool is not configured.")
     }
 
     await new Promise<void>((resolve, reject) => {
-      userPool.signUp(username, password, [createEmailAttribute(email)], [], (err) => {
+      userPool.signUp(email, password, [createEmailAttribute(email)], [], (err) => {
         if (err) {
           reject(err)
         } else {
